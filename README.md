@@ -11,7 +11,7 @@
 $ npm install @ize-302/env-sync -g
 ```
 
-#### Usage
+#### Usage (Run this command in the root of your working directory)
 
 ```bash
 $ env-sync
@@ -42,8 +42,14 @@ $ npm install @ize-302/env-sync -D
 $ npm run env
 ```
 
-### Note
+### Notes
 
 ```
-Only environmental variables (EV) with values will be synced. EVs without stated values will not be synced
+1. Only environmental variables (EV) with values will be synced. EVs without stated values will not be synced.
+
+2. If a new .env file is added while running env-sync, you will have to close the process and run the command again to be able to  sync the newly added .env file
+
+3. All generated env examples are stored in the env-examples folder at the root of your working directory
+
+4. For feature requests/bug report, feel free to open a new issue. Will be happy to look into it
 ```
