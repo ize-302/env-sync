@@ -1,12 +1,12 @@
 import fs from "fs";
 import readline from "readline";
 
-const root_path = fs.readdirSync('./');
-const env_files = root_path.filter(file => file.includes('.env')) // we only want .env files
+const root_files = fs.readdirSync('./');
+const env_files = root_files.filter(file => file.includes('.env')) // we only want .env files
 const folder_path = './env-examples'
 
 // watcher
-await fs.watch(import.meta.dir, (event, filename) => {
+await fs.watch('./', (event, filename) => {
   if (env_files.includes(filename)) {
     writeToFile(filename)
   }
@@ -48,7 +48,6 @@ const writeToFile = async (env_file) => {
       if (match) {
         const key = match[1];
         const comment = match[3] ? match[3].trim() : null;
-        console.log({ key, comment })
         keys.push(`${key}= ${!comment ? '' : comment}`);
       }
     });
@@ -65,24 +64,23 @@ const writeToFile = async (env_file) => {
       for (let i = 0; i < keys.length; i++) {
         content.push(`${keys[i]}\n`)
       }
-      console.log(`Updated ${env_file} ✅`)
+      console.log(`📄 detected change in ${env_file} was updated, sample updated ✅`)
       await Bun.write(`${folder_path}/${env_file.startsWith('env', 1) ? env_file.substring(0) : env_file}.example`, content)
     });
   }
 }
 
 
-// CREATE env-examples FOLDER
-fs.access(folder_path, (error) => {
-  if (error) {
-    console.log('Permission denied!')
-  }
-  fs.mkdir(folder_path, (error) => {
-    // On command, initialially create example of all existsing environmental variables
-    env_files.map(async env_file => {
-      await writeToFile(env_file)
-    })
-  });
-})
+const envSync = () => {
+  // CREATE env-examples FOLDER
+  fs.access(folder_path, () => {
+    fs.mkdir(folder_path, () => {
+      // On command, initialially create example of all existsing environmental variables
+      env_files.map(async env_file => {
+        await writeToFile(env_file)
+      })
+    });
+  })
+}
 
-
+export default envSync
