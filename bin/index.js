@@ -1,8 +1,13 @@
+#! /usr/bin/env node
 import fs from "fs";
 import readline from "readline";
+import chalk from 'chalk'
 
 const root_files = fs.readdirSync('./');
 const env_files = root_files.filter(file => file.includes('.env')) // we only want .env files
+if (env_files.length === 0) {
+  console.log(chalk.bgRedBright(`⚠️ env-sync:::No env file found. Be sure you are in the right directory`))
+}
 const folder_path = './env-examples'
 
 // watcher
@@ -22,11 +27,8 @@ await fs.watch('./', (event, filename) => {
  * @returns {*}
  */
 const writeToFile = async (env_file) => {
-  const file = Bun.file(env_file);
-  const file_exists = await file.exists()
-
-  // write to file
-  if (file_exists) {
+  try {
+    // read file
     const keys = [];
     const fileStream = fs.createReadStream(env_file);
 
@@ -53,26 +55,31 @@ const writeToFile = async (env_file) => {
     });
 
     rl.on('close', async () => {
-      const content = [
-        `# This is a example ${env_file} file.\n`,
-        `# Duplicate this file as ${env_file} in the root of the project\n`,
-        `# remove the .example extension \n`,
-        `# and update the environment variables to match your\n`,
-        `# desired config\n`,
-        `# NOTE: example file was generated using: env-sync package\n \n`,
-      ]
+      let content =
+        "# This is a example ${env_file} file.\n" +
+        "# Duplicate this file as ${env_file} in the root of the project\n" +
+        "# remove the .example extension \n" +
+        "# and update the environment variables to match your\n" +
+        "# desired config\n" +
+        "# NOTE: example file was generated using: env-sync package\n \n"
       for (let i = 0; i < keys.length; i++) {
-        content.push(`${keys[i]}\n`)
+        content = content + `${keys[i]}\n`
       }
-      console.log(`📄 detected change in ${env_file} was updated, sample updated ✅`)
-      await Bun.write(`${folder_path}/${env_file.startsWith('env', 1) ? env_file.substring(0) : env_file}.example`, content)
+      try {
+        console.log(chalk.gray(`📄 detected change in ${chalk.green(env_file)} was updated, sample updated ✅`))
+        await fs.writeFileSync(`${folder_path}/${env_file.startsWith('env', 1) ? env_file.substring(0) : env_file}.example`, content);
+      } catch (e) {
+        throw new Error(`Sync failed. ${e.message}`);
+      }
     });
+  } catch (err) {
+    console.error(err)
   }
 }
 
 
 const envSync = () => {
-  // CREATE env-examples FOLDER
+  // CREATE env - examples FOLDER
   fs.access(folder_path, () => {
     fs.mkdir(folder_path, () => {
       // On command, initialially create example of all existsing environmental variables
@@ -83,4 +90,4 @@ const envSync = () => {
   })
 }
 
-export default envSync
+envSync()
