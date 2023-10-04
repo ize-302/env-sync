@@ -8,13 +8,13 @@
 ## Installation
 
 ```bash
-$ npm install -g env-sync
+$ npm install @ize-302/env-sync -g
 ```
 
 Install as a dev dependency (**recommended**)
 
 ```bash
-$ npm install -D env-sync
+$ npm install @ize-302/env-sync -D
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ $ npm install -D env-sync
 // package.json
 {
   "scripts": {
-    "env": "env-sync"
+    "env": "@ize-302/env-sync"
   }
 }
 ```
