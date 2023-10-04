@@ -12,7 +12,7 @@
     "chalk": "^5.3.0"
   },
   "bin": {
-    "@ize-302/env-sync": "bin/index.js"
+    "env-sync": "bin/index.js"
   },
   "bugs": {
     "url": "https://github.com/ize-302/env-sync/issues"

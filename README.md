@@ -5,19 +5,25 @@
 
 <img src="./demo.gif">
 
-## Installation
+## Global Installation
 
 ```bash
 $ npm install @ize-302/env-sync -g
 ```
 
-Install as a dev dependency (**recommended**)
+#### Usage
+
+```bash
+$ env-sync
+```
+
+## Repo Installation (**recommended**)
 
 ```bash
 $ npm install @ize-302/env-sync -D
 ```
 
-## Usage
+#### Usage
 
 1. Insert as script command
 
@@ -34,4 +40,10 @@ $ npm install @ize-302/env-sync -D
 
 ```bash
 $ npm run env
+```
+
+### Note
+
+```
+Only environmental variables (EV) with values will be synced. EVs without stated values will not be synced
 ```
