@@ -56,7 +56,7 @@ const writeToFile = async (env_file) => {
 
     rl.on('close', async () => {
       let content =
-        "# This is a example ${env_file} file.\n" +
+        `# This is a example ${env_file} file.\n` +
         "# Duplicate this file as ${env_file} in the root of the project\n" +
         "# remove the .example extension \n" +
         "# and update the environment variables to match your\n" +

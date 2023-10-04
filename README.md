@@ -1,15 +1,37 @@
 # env-sync
 
-To install dependencies:
+`env-sync` automates the process of syncing and saving examples of all your
+`env` files. No more manually updating env samples
+
+<img src="./demo.gif">
+
+## Installation
 
 ```bash
-bun install
+$ npm install -g env-sync
 ```
 
-To run:
+Install as a dev dependency (**recommended**)
 
 ```bash
-bun run index.js
+$ npm install -D env-sync
 ```
 
-This project was created using `bun init` in bun v1.0.3. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Usage
+
+1. Insert as script command
+
+```js
+// package.json
+{
+  "scripts": {
+    "env": "env-sync"
+  }
+}
+```
+
+2. Run it
+
+```bash
+$ npm run env
+```
